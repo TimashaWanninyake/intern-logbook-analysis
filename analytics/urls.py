@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import analyze_intern
+from .views import AnalyzeLogbookView
 
 urlpatterns = [
-    path('analyze/', analyze_intern, name='analyze_intern'),
+    path('analyze-logbook/', AnalyzeLogbookView.as_view(), name='analyze_logbook'),
 ]
