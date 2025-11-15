@@ -205,21 +205,21 @@ def compute_intern_score(log_entries: List[Dict[str, Any]]) -> Dict[str, Any]:
     final = (sentiment * 0.3) + (consistency * 0.3) + (effort * 0.4)
     return int(round(final, 0))
 
-# def calculate_intern_score(insights: dict) -> int:
-#     """
-#     Simple scoring engine based on extracted insights.
-#     """
-#     base_score = 50
+def calculate_intern_score(insights: dict) -> int:
+    """
+    Simple scoring engine based on extracted insights.
+    """
+    base_score = 50
 
-#     # Score bonus if keywords exist
-#     if "keywords" in insights:
-#         base_score += len(insights["keywords"]) * 5
+    # Score bonus if keywords exist
+    if "keywords" in insights:
+        base_score += len(insights["keywords"]) * 5
 
-#     # Score bonus if sentiment detected
-#     if insights.get("sentiment") == "positive":
-#         base_score += 10
-#     elif insights.get("sentiment") == "negative":
-#         base_score -= 10
+    # Score bonus if sentiment detected
+    if insights.get("sentiment") == "positive":
+        base_score += 10
+    elif insights.get("sentiment") == "negative":
+        base_score -= 10
 
-#     return max(0, min(base_score, 100))  # Clamp between 0–100
+    return max(0, min(base_score, 100))  # Clamp between 0–100
 
