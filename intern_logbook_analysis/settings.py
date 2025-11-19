@@ -137,3 +137,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MONGODB_URI = "mongodb://localhost:27017/"
+MONGODB_DB_NAME = "intern_logbook"
+MONGODB_LOGBOOK_COLLECTION = "logbook_entries"
+
+OLLAMA_BASE_URL = "http://localhost:11434"
+OLLAMA_MODEL = "gemma3:1b"
+
+OLLAMA_API_URL = "http://localhost:11434"
+
