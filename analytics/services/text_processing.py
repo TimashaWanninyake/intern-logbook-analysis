@@ -125,7 +125,12 @@ def analyze_with_ollama(intern_name: str, log_entries: list[str]) -> dict:
     payload = {
         "model": OLLAMA_MODEL,
         "prompt": prompt,
-        "stream": False
+        "stream": False,
+        "options": {
+            "temperature": 0.3,
+            "top_k": 50,
+            "top_p": 0.95
+  }
     }
 
     try:
