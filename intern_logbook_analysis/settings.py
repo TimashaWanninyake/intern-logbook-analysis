@@ -10,7 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -138,12 +142,15 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MONGODB_URI = "mongodb://localhost:27017/"
-MONGODB_DB_NAME = "intern_logbook"
-MONGODB_LOGBOOK_COLLECTION = "logbook_entries"
+# MongoDB Configuration
+MONGO_URI = os.getenv('MONGODB_URI')
+DATABASE_NAME = os.getenv('MONGODB_DB_NAME')
 
 OLLAMA_BASE_URL = "http://localhost:11434"
 OLLAMA_MODEL = "gemma3:1b"
 
 OLLAMA_API_URL = "http://localhost:11434"
 
+print("Loaded environment variables from .env file")
+print(f"MONGODB_URI: {os.getenv('MONGODB_URI')}")
+print(f"DATABASE_NAME: {os.getenv('MONGODB_DB_NAME')}")
