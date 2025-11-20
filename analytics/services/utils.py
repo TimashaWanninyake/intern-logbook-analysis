@@ -4,6 +4,7 @@ from datetime import date, datetime, timedelta
 from typing import List, Dict, Any
 from django.conf import settings
 from pymongo import MongoClient
+from bson import ObjectId
 
 
 def get_mongo_client() -> MongoClient:
@@ -21,11 +22,13 @@ def get_logbook_collection():
     Return the MongoDB collection that stores logbook entries.
     """
     db_name = getattr(settings, "MONGODB_DB_NAME", None) or os.environ.get("MONGODB_DB_NAME")
-    collection_name = getattr(settings, "MONGODB_LOGBOOK_COLLECTION", "logbook_entries")
+    collection_name = getattr(settings, "MONGODB_LOGBOOK_COLLECTION", "dailyrecords")
+    print(f"Using MongoDB Database: {db_name}, Collection: {collection_name}")
     if not db_name:
         raise RuntimeError("MONGODB_DB_NAME not configured in settings or environment.")
     client = get_mongo_client()
     return client[db_name][collection_name]
+
 
 
 # def get_week_range(end_date: datetime | None = None, days: int = 7) -> tuple[datetime, datetime]:
@@ -45,8 +48,7 @@ def get_week_range(days: int = 7):
     Returns start_date_str, end_date_str in 'YYYY-MM-DD' format,
     without time components.
     """
-    # today = datetime.utcnow().date()  # strip time completely
-    today = date(2025, 9, 25) #[TODO]:Hard coded date here. Make it to current date.
+    today = date.today()
     start_date = today - timedelta(days=days - 1)
    
     return (
@@ -73,10 +75,10 @@ def fetch_logbook_entries(
     """
     collection = get_logbook_collection()   
     query = {
-        "intern_id": intern_id,
+        "internId": ObjectId(intern_id),
         "date": {
-            "$gte": start_date,
-            "$lte": end_date,
+            "$gte": '2025-11-18',
+            "$lte": '2025-11-20',
         },
     }
 
@@ -89,10 +91,10 @@ def fetch_logbook_entries(
             {
                 "date": doc.get("date"),
                 "status": (doc.get("status") or "").strip(),
-                "tech_stack": (doc.get("tech_stack") or "").strip(),
-                "todays_work": (doc.get("todays_work") or "").strip(),
-                "challenges": (doc.get("challenges") or "").strip(),
-                "tomorrow_plan": (doc.get("tomorrow_plan") or "").strip(),
+                "tech_stack": (doc.get("stack") or "").strip(),
+                "todays_work": (doc.get("task") or "").strip(),
+                "challenges": (doc.get("progress") or "").strip(),
+                "tomorrow_plan": (doc.get("blockers") or "").strip(),
             }
         )
     return entries

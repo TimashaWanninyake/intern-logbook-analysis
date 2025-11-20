@@ -171,7 +171,7 @@ def _build_log_texts_from_entries(entries: List[Dict[str, Any]]) -> List[str]:
 
 
 def generate_weekly_report(
-    intern_id: int,
+    intern_id: str,
     intern_name: str,
     days: int = 7,
 ) -> Dict[str, Any]:
@@ -185,9 +185,9 @@ def generate_weekly_report(
 
     # 1) Get the date window and fetch entries
     start_date, end_date = get_week_range(days=days)
+    print("start_date,end_date",start_date,end_date)
     entries = fetch_logbook_entries(intern_id, start_date, end_date)
     print("Entries",entries)
-    entries = fetch_logbook_entries(intern_id, start_date, end_date)
 
     if not entries:
         # No data → minimal, but still valid JSON in your new format
