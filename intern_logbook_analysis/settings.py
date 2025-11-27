@@ -143,8 +143,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # MongoDB Configuration
-MONGO_URI = os.getenv('MONGODB_URI')
-DATABASE_NAME = os.getenv('MONGODB_DB_NAME')
+MONGODB_URI = os.getenv('MONGODB_URI')
+MONGODB_DB_NAME = os.getenv('MONGODB_DB_NAME')
+MONGODB_LOGBOOK_COLLECTION=os.getenv('MONGODB_LOGBOOK_COLLECTION')
 
 OLLAMA_BASE_URL = "http://localhost:11434"
 OLLAMA_MODEL = "gemma3:1b"

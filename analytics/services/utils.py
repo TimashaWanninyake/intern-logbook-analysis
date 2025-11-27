@@ -5,6 +5,7 @@ from typing import List, Dict, Any
 from django.conf import settings
 from pymongo import MongoClient
 from bson import ObjectId
+from bson.errors import InvalidId
 
 
 def get_mongo_client() -> MongoClient:
@@ -48,7 +49,7 @@ def get_week_range(days: int = 7):
     Returns start_date_str, end_date_str in 'YYYY-MM-DD' format,
     without time components.
     """
-    today = date.today()
+    today = date(2025, 10, 25) #[TODO]:Hard coded date here. Make it to current date.
     start_date = today - timedelta(days=days - 1)
    
     return (
@@ -74,11 +75,17 @@ def fetch_logbook_entries(
       - tomorrow_plan
     """
     collection = get_logbook_collection()   
+    try:
+        intern_object_id = ObjectId(intern_id)
+    except InvalidId:
+        # Fallback: in case something else is passed, use it as-is
+        intern_object_id = intern_id
+
     query = {
-        "internId": ObjectId(intern_id),
+        "internId": intern_object_id,
         "date": {
-            "$gte": '2025-11-18',
-            "$lte": '2025-11-20',
+            "$gte": start_date,
+            "$lte": end_date,
         },
     }
 
